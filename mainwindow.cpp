@@ -407,7 +407,7 @@ void MainWindow::on_actionSpiel_laden_triggered()
 
 
 
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushButton_uebernehmen()
 {
     // Übernahme des geladenen Spielstandes ( Inhalt des Textbrowsers )
     QString text = ui->dateiInhalt->toPlainText();
