@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Schachpartie>
+    <daten>
+        <Spieler weiss="paul" schwarz="karl"/>
+        <Datum am ="Di Feb 15 2022" um ="10:11:30"/>
+    </daten>
+    <Zug zugnummer="5">
+        <stellung> ♖♗♔♕♗♘♖♙♙♙♙♙♙♙♙  ♘                     ♝♟︎      ♟︎ ♟︎♟︎♟︎♟︎♟︎♟︎♜♞ ♚♛♝♞♜</stellung>
+    </Zug>
+</Schachpartie>
