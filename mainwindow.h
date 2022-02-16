@@ -29,9 +29,11 @@ private slots:
 
     void on_actionals_Text_triggered();                    // ruft die Default-Speichermethode auf
 
-    void on_actionSpiel_laden_triggered();
+    
 
     void on_actionals_XML_triggered();
+
+void on_actionSpiel_laden_triggered();
 
     void on_pushButton_uebernehmen();
 
