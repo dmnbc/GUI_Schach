@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTableWidget" name="brettAnzeige">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>100</y>
+      <width>400</width>
+      <height>400</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>DejaVu Sans</family>
+      <pointsize>20</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="mouseTracking">
+     <bool>true</bool>
+    </property>
+    <property name="verticalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="selectionBehavior">
+     <enum>QAbstractItemView::SelectItems</enum>
+    </property>
+    <property name="rowCount">
+     <number>10</number>
+    </property>
+    <property name="columnCount">
+     <number>10</number>
+    </property>
+    <attribute name="horizontalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="horizontalHeaderMinimumSectionSize">
+     <number>40</number>
+    </attribute>
+    <attribute name="horizontalHeaderDefaultSectionSize">
+     <number>40</number>
+    </attribute>
+    <attribute name="horizontalHeaderHighlightSections">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderVisible">
+     <bool>false</bool>
+    </attribute>
+    <attribute name="verticalHeaderMinimumSectionSize">
+     <number>40</number>
+    </attribute>
+    <attribute name="verticalHeaderDefaultSectionSize">
+     <number>40</number>
+    </attribute>
+    <attribute name="verticalHeaderHighlightSections">
+     <bool>false</bool>
+    </attribute>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+    <item row="0" column="1">
+     <property name="text">
+      <string>A</string>
+     </property>
+    </item>
+    <item row="0" column="2">
+     <property name="text">
+      <string>B</string>
+     </property>
+    </item>
+    <item row="0" column="3">
+     <property name="text">
+      <string>C</string>
+     </property>
+    </item>
+    <item row="0" column="4">
+     <property name="text">
+      <string>D</string>
+     </property>
+    </item>
+    <item row="0" column="5">
+     <property name="text">
+      <string>E</string>
+     </property>
+    </item>
+    <item row="0" column="6">
+     <property name="text">
+      <string>F</string>
+     </property>
+    </item>
+    <item row="0" column="7">
+     <property name="text">
+      <string>G</string>
+     </property>
+    </item>
+    <item row="0" column="8">
+     <property name="text">
+      <string>H</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="pushButton">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>60</y>
+      <width>401</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Zug xx für farbe</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ladeAnzeige">
+    <property name="geometry">
+     <rect>
+      <x>210</x>
+      <y>510</y>
+      <width>401</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="dateiInhalt">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>261</y>
+      <width>191</width>
+      <height>201</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>470</y>
+      <width>93</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>übernehmen</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="spieler1">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>81</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(0, 0, 0);
+background-color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Spieler-Weiß</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>20</y>
+      <width>113</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_2">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>20</y>
+      <width>113</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="spieler2">
+    <property name="geometry">
+     <rect>
+      <x>640</x>
+      <y>20</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: black;
+color: rgb(255, 255, 255);</string>
+    </property>
+    <property name="text">
+     <string>Spieler-Schwarz</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuSpiel">
+    <property name="title">
+     <string>Spiel</string>
+    </property>
+    <widget class="QMenu" name="menuSpiel_speichern">
+     <property name="title">
+      <string>Spiel speichern</string>
+     </property>
+     <addaction name="actionals_Text"/>
+     <addaction name="actionals_XML"/>
+    </widget>
+    <addaction name="actionneues_Spiel"/>
+    <addaction name="menuSpiel_speichern"/>
+    <addaction name="actionSpiel_laden"/>
+   </widget>
+   <widget class="QMenu" name="menuHilfe">
+    <property name="title">
+     <string>Hilfe</string>
+    </property>
+    <addaction name="actionSchachregeln"/>
+    <addaction name="action_ber_GUI_Schach"/>
+   </widget>
+   <addaction name="menuSpiel"/>
+   <addaction name="menuHilfe"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionneues_Spiel">
+   <property name="text">
+    <string>neues Spiel</string>
+   </property>
+  </action>
+  <action name="actionSpiel_laden">
+   <property name="text">
+    <string>Spiel laden</string>
+   </property>
+  </action>
+  <action name="actionals_Text">
+   <property name="text">
+    <string>als Text</string>
+   </property>
+  </action>
+  <action name="actionals_XML">
+   <property name="text">
+    <string>als XML</string>
+   </property>
+  </action>
+  <action name="actionSchachregeln">
+   <property name="text">
+    <string>Schachregeln</string>
+   </property>
+  </action>
+  <action name="action_ber_GUI_Schach">
+   <property name="text">
+    <string>Über GUI Schach</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
