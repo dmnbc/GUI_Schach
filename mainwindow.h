@@ -27,7 +27,7 @@ private slots:
 
     void on_actionSpiel_speichern_triggered();             // einfache Textdatei mit Stand der Figuren erstellen
 
-    void on_actionals_Text_triggered();
+    void on_actionals_Text_triggered();                    // ruft die Default-Speichermethode auf
 
     void on_actionSpiel_laden_triggered();
 
