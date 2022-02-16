@@ -26,8 +26,13 @@
  *  Spiel_speichern_triggered()
  *     { Aufruf FileDialog und einfaches Schreiben des Spielstandes ( UTF-8 Textdatei )}
  *     Submenue
- *        als Text
- *        als XML
+ *        als Text default Methode, wird von on_actionals_Text_triggered aufgerufen
+ *        als XML on_actionals_XML_triggered mit  QXmlStreamWriter
+ *
+ *   Spiel laden on_actionSpiel_laden_triggered()
+ *        grundsätzlich wird ein Dateiname der zu ladenden Datei erfragt
+ *        je nach gewählter Endung ( .txt / .xml ) erfolgt das Einlesen in ein Vorschaufenster
+ *        von dort kann der Spielstand übernommen werden
  */
 
 
@@ -285,6 +290,49 @@ void MainWindow::on_actionals_Text_triggered()
     on_actionSpiel_speichern_triggered();
 }
 
+void MainWindow::on_actionals_XML_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(nullptr,"Datei zum Speichern  auswählen",
+                                                    " ","Spiele (*.xml )");
+    QFile wrtFile(fileName);
+    if (!wrtFile.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "wrt.xml Already opened or there is another issue";
+        wrtFile.close();
+    }
+    QXmlStreamWriter *xmlWriter = new QXmlStreamWriter(&wrtFile);
+    xmlWriter->writeStartDocument();
+    xmlWriter->setAutoFormatting(true);
+    xmlWriter->writeStartElement("Schachpartie");
+     xmlWriter->writeStartElement("daten");
+      xmlWriter->writeStartElement("Spieler");
+        xmlWriter->writeAttribute("weiss", ui->lineEdit->text());
+        xmlWriter->writeAttribute("schwarz", ui->lineEdit_2->text());
+      xmlWriter->writeEndElement(); // Spieler
+      xmlWriter->writeStartElement("Datum");
+       xmlWriter->writeAttribute("am ",QDate::currentDate().toString());
+       xmlWriter->writeAttribute("um ",QTime::currentTime().toString());
+      xmlWriter->writeEndElement(); //Datum
+     xmlWriter->writeEndElement(); //daten
+    QString figurenStellung = ""; // alle 64 Felder sammeln
+    for(int row = 1; row <= 8; row++)
+    {
+        for(int col = 1; col <= 8; col++)
+        {   QString data = Spiel::spielStand.at(row).at(col)._figur->utf8Figur;
+            figurenStellung +=data; //jedes Feld an den String anhängen
+        }
+    }
+     qDebug()<<__FILE__<<":"<<__LINE__<<"data = "<<figurenStellung.toUtf8();
+     int i = Spiel::zugnummer;
+        xmlWriter->writeStartElement("Zug");
+         xmlWriter->writeAttribute("zugnummer",QString::number(i) );
+         xmlWriter->writeTextElement("stellung",figurenStellung);
+        xmlWriter->writeEndElement(); // Zug
+
+    xmlWriter->writeEndElement(); // Schachpartie
+    xmlWriter->writeEndDocument();
+}
+
 
 void MainWindow::on_actionSpiel_laden_triggered()
 {
@@ -357,48 +405,6 @@ void MainWindow::on_actionSpiel_laden_triggered()
 }
 
 
-void MainWindow::on_actionals_XML_triggered()
-{
-    QString fileName = QFileDialog::getOpenFileName(nullptr,"Datei zum Speichern  auswählen",
-                                                    " ","Spiele (*.xml )");
-    QFile wrtFile(fileName);
-    if (!wrtFile.open(QIODevice::WriteOnly))
-    {
-        qDebug() << "wrt.xml Already opened or there is another issue";
-        wrtFile.close();
-    }
-    QXmlStreamWriter *xmlWriter = new QXmlStreamWriter(&wrtFile);
-    xmlWriter->writeStartDocument();
-    xmlWriter->setAutoFormatting(true);
-    xmlWriter->writeStartElement("Schachpartie");
-     xmlWriter->writeStartElement("daten");
-      xmlWriter->writeStartElement("Spieler");
-        xmlWriter->writeAttribute("weiss", ui->lineEdit->text());
-        xmlWriter->writeAttribute("schwarz", ui->lineEdit_2->text());
-      xmlWriter->writeEndElement(); // Spieler
-      xmlWriter->writeStartElement("Datum");
-       xmlWriter->writeAttribute("am ",QDate::currentDate().toString());
-       xmlWriter->writeAttribute("um ",QTime::currentTime().toString());
-      xmlWriter->writeEndElement(); //Datum
-     xmlWriter->writeEndElement(); //daten
-    QString figurenStellung = ""; // alle 64 Felder sammeln
-    for(int row = 1; row <= 8; row++)
-    {
-        for(int col = 1; col <= 8; col++)
-        {   QString data = Spiel::spielStand.at(row).at(col)._figur->utf8Figur;
-            figurenStellung +=data; //jedes Feld an den String anhängen
-        }
-    }
-     qDebug()<<__FILE__<<":"<<__LINE__<<"data = "<<figurenStellung.toUtf8();
-     int i = Spiel::zugnummer;
-        xmlWriter->writeStartElement("Zug");
-         xmlWriter->writeAttribute("zugnummer",QString::number(i) );
-         xmlWriter->writeTextElement("stellung",figurenStellung);
-        xmlWriter->writeEndElement(); // Zug
-
-    xmlWriter->writeEndElement(); // Schachpartie
-    xmlWriter->writeEndDocument();
-}
 
 
 void MainWindow::on_pushButton_2_clicked()
