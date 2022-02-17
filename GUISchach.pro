@@ -20,7 +20,8 @@ SOURCES += \
     nofigur.cpp \
     spiel.cpp \
     springer.cpp \
-    turm.cpp
+    turm.cpp \
+    xml_austausch.cpp
 
 HEADERS += \
     bauer.h \
@@ -33,7 +34,8 @@ HEADERS += \
     nofigur.h \
     spiel.h \
     springer.h \
-    turm.h
+    turm.h \
+    xml_austausch.h
 
 FORMS += \
     mainwindow.ui
