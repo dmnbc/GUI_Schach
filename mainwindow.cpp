@@ -39,6 +39,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "spiel.h"
+#include "xml_austausch.h"
 
 #include <Qt>
 #include <QDebug>
@@ -160,6 +161,8 @@ void MainWindow::on_brettAnzeige_cellClicked(int row, int column)
        Spiel::clicknummer++;
        Spiel::zugnummer++;
        Spiel::spieler = !Spiel::spieler;
+       XML_Austausch xml_objekt;
+       xml_objekt.zug_aufzeichnen();
        spielStandZeigen();
 
         }
