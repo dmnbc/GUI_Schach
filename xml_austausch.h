@@ -5,8 +5,9 @@
 class XML_Austausch
 {
 public:
-    XML_Austausch();
-    bool zug_aufzeichnen();
+    XML_Austausch();  // ctor
+    bool zug_aufzeichnen();  // Einzug
+    bool zug_ergaenzen();    // weitere Züge zur XML hinzuzufügen Update mit DOM
 };
 
 #endif // XML_AUSTAUSCH_H
