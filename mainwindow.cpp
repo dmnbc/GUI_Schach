@@ -57,6 +57,7 @@ int Spiel::clicknummer = 0;
 QPair<int,int> Spiel::last_even_clickPosition = {0,0};
 bool Spiel::spieler = true;
 int Spiel::zugnummer = 1;
+QString Spiel::xmlFile;
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -162,7 +163,7 @@ void MainWindow::on_brettAnzeige_cellClicked(int row, int column)
        Spiel::zugnummer++;
        Spiel::spieler = !Spiel::spieler;
        XML_Austausch xml_objekt;
-       xml_objekt.zug_aufzeichnen();
+       xml_objekt.zug_ergaenzen(Spiel::xmlFile,Spiel::spielStand);
        spielStandZeigen();
 
         }
@@ -297,6 +298,7 @@ void MainWindow::on_actionals_XML_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(nullptr,"Datei zum Speichern  auswählen",
                                                     " ","Spiele (*.xml )");
+    Spiel::xmlFile = fileName;
     QFile wrtFile(fileName);
     if (!wrtFile.open(QIODevice::WriteOnly))
     {

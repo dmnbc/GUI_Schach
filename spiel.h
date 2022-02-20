@@ -16,6 +16,7 @@ public:
     static QPair<int,int> last_even_clickPosition;
     static bool spieler;
     static int zugnummer;
+    static QString xmlFile;
 
 };
 

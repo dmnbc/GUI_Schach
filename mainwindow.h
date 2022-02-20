@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTableWidgetItem>
+#include "xml_austausch.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
