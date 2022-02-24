@@ -18,20 +18,27 @@ bool XML_Austausch::zug_ergaenzen(QString filename, std::array<std::array<Feld,1
 { // https://thecodeprogram.com/how-to-read-and-write-xml-files-in-qt-c--
     qDebug()<<__FILE__<<":"<<__LINE__<<"zug_ergaenzen()";
 
-    QDomDocument gameXML;
+    QDomDocument gameXML(filename);
         QFile xmlFile(filename);
-       // xmlFile.set
+
         if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text ))
         {
             // Error while loading file
             qDebug()<<__FILE__<<":"<<__LINE__<<filename<< " wurde nicht geöffnet";
             return false;
         }
-        qDebug()<<__FILE__<<":"<<__LINE__<<xmlFile;
+        //qDebug()<<__FILE__<<":"<<__LINE__<<xmlFile;
+       /* QString line;
+        while (!xmlFile.atEnd())
+        {
+            line = xmlFile.readLine();
+            qDebug()<<__FILE__<<":"<<__LINE__<<line.toUtf8();
+        }*/ // es wird in UTF8 gelesen
+
         gameXML.setContent(&xmlFile);
         xmlFile.close();
     qDebug()<<__FILE__<<":"<<__LINE__<<filename<< " ist geöffnet";
-    qDebug()<<__FILE__<<":"<<__LINE__<<gameXML.toString();
+    qDebug()<<__FILE__<<":"<<__LINE__<<gameXML.toByteArray(); // immer noch UTF8 erkennbar
     QDomElement root = gameXML.documentElement();
     qDebug()<<__FILE__<<":"<<__LINE__<<"root : "<<root.isElement();
     QDomElement zugTag = gameXML.createElement(QString("Zug"));

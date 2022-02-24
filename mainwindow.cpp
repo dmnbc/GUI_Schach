@@ -360,7 +360,8 @@ void MainWindow::on_actionSpiel_laden_triggered()
     QXmlStreamReader reader(&datei);
     if(datei.open(QIODevice::ReadOnly))
     {   if(fileType==1)
-        {sicherung.setCodec("UTF-8");   qDebug()<<__FILE__<<":"<<__LINE__<<": Codec gesetzt";}
+        {sicherung.setCodec("UTF-8");   qDebug()<<__FILE__<<":"<<__LINE__<<": Codec gesetzt";
+        }
         else // ist xml
         {
 
@@ -383,14 +384,14 @@ void MainWindow::on_actionSpiel_laden_triggered()
                    // qDebug()<<__FILE__<<":"<<__LINE__ <<"do processing";
                     QString newLine;
                     reader.readNextStartElement();
-                    if(reader.name() == "Spieler")
+                    if(reader.name().toString() == "Spieler")
                     {
                         qDebug()<<__FILE__<<":"<<__LINE__<<reader.attributes().value("weiss").toString();
                         qDebug()<<__FILE__<<":"<<__LINE__<<reader.attributes().value("schwarz").toString();
                         newLine += reader.attributes().value("weiss").toString();
 
                     }
-                    if(reader.name() == "stellung")
+                    if(reader.name().toString() == "stellung")
                     { QString line = reader.readElementText();
                       qDebug()<<__FILE__<<":"<<__LINE__ <<line<<" mit "<<line.size()<<" Zeichen";
                       ui->ladeAnzeige->setText(line);
