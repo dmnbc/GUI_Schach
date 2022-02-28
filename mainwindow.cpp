@@ -49,6 +49,7 @@
 #include <QTime>
 #include <QtXml>
 #include <QTextStream>
+#include <QScrollBar>
 
 std::array<std::array<Feld,10>,10> Spiel::spielStand;
 QString Spiel::aufgenommeneFigur;
@@ -73,6 +74,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->pushButton->setStyleSheet("background-color: white; color: black");
     ui->pushButton->setText("Neues Spiel - Weiss am Zug");
+
+    ui->dateiInhalt->verticalScrollBar()->setPageStep(9);
+    ui->dateiInhalt->verticalScrollBar()->
 
    qDebug()<<__FILE__<<":"<<__LINE__<<" Instanzieren von Spiel spiel";
    Spiel spiel; // schafft die Grundstellung auf dem Brett
@@ -297,7 +301,7 @@ void MainWindow::on_actionals_Text_triggered()
 void MainWindow::on_actionals_XML_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(nullptr,"Datei zum Speichern  auswählen",
-                                                    " ","Spiele (*.xml )");
+                                                    " ","Dateien (*.xml *.txt)");
     Spiel::xmlFile = fileName;
     QFile wrtFile(fileName);
     if (!wrtFile.open(QIODevice::WriteOnly))
@@ -359,13 +363,7 @@ void MainWindow::on_actionSpiel_laden_triggered()
     QTextStream sicherung(&datei); qDebug()<<__FILE__<<":"<<__LINE__<<": QTextstream erzeugt";
     QXmlStreamReader reader(&datei);
     if(datei.open(QIODevice::ReadOnly))
-    {   if(fileType==1)
-        {sicherung.setCodec("UTF-8");   qDebug()<<__FILE__<<":"<<__LINE__<<": Codec gesetzt";
-        }
-        else // ist xml
-        {
-
-        }
+    {
         QString line;
         if(fileType==1) // txt
          {while(!sicherung.atEnd())
@@ -380,10 +378,11 @@ void MainWindow::on_actionSpiel_laden_triggered()
         }
         else // xml
         {
+            QString newLine;
             while (!reader.atEnd()) {
-                   // qDebug()<<__FILE__<<":"<<__LINE__ <<"do processing";
-                    QString newLine;
-                    reader.readNextStartElement();
+                    qDebug()<<__FILE__<<":"<<__LINE__ <<"do processing";
+
+                    reader.readNextStartElement();  qDebug()<<__FILE__<<":"<<__LINE__<<reader.name().toString() <<" gefunden ";
                     if(reader.name().toString() == "Spieler")
                     {
                         qDebug()<<__FILE__<<":"<<__LINE__<<reader.attributes().value("weiss").toString();
@@ -392,18 +391,20 @@ void MainWindow::on_actionSpiel_laden_triggered()
 
                     }
                     if(reader.name().toString() == "stellung")
-                    { QString line = reader.readElementText();
+                    { qDebug()<<__FILE__<<":"<<__LINE__ <<"stellung gefunden";
+                      QString line = reader.readElementText();
                       qDebug()<<__FILE__<<":"<<__LINE__ <<line<<" mit "<<line.size()<<" Zeichen";
                       ui->ladeAnzeige->setText(line);
-
+                      newLine += "*------*\n";
                       for(int i = 1; i <=line.size();i++)
                       {
                           newLine += line.at(i-1);
                           if( i%8 == 0)
                             {  newLine += "-\n";}
-                          qDebug().noquote()<<__FILE__<<":"<<__LINE__<<"\n"<<newLine.toUtf8();
+
                       }
-                       qDebug().noquote()<<__FILE__<<":"<<__LINE__ <<newLine<<" mit "<<newLine.size()<<" Zeichen";
+                      qDebug().noquote()<<__FILE__<<":"<<__LINE__<<"\n"<<newLine.toUtf8();
+                      qDebug().noquote()<<__FILE__<<":"<<__LINE__ <<newLine<<" mit "<<newLine.size()<<" Zeichen";
                       ui->dateiInhalt->setText(newLine);}
               }
         }
@@ -412,86 +413,104 @@ void MainWindow::on_actionSpiel_laden_triggered()
 
 
 
+void MainWindow::on_dateiInhalt_selectionChanged()
+{   static int events;
+    //qDebug()<<__FILE__<<":"<<__LINE__<<"selectionChanged : "<<events++ << "Selected : "<<ui->dateiInhalt->textCursor().selectedText();
+    //ui->ladeAnzeige->text()=ui->dateiInhalt->textCursor().selectedText();
+}
 
-void MainWindow::on_pushButton_uebernehmen()
-{
-    // Übernahme des geladenen Spielstandes ( Inhalt des Textbrowsers )
-    QString text = ui->dateiInhalt->toPlainText();
-    qDebug()<<__FILE__<<":"<<__LINE__<<": dateiInhalt als String :"<<text.toUtf8();
-    qDebug()<<__FILE__<<":"<<__LINE__<<": der String hat "<<text.size();
-    // Hole die 64 Darstellungen der Figuren
-    // 64 Zeichen am Ende des Strings, Annahme dass jedes Zeichen 1 character braucht
-    qDebug()<<__FILE__<<":"<<__LINE__<<": der String hat als letztes Zeichen "<<text.at(text.size()-1);
-    int zeile = 9; // da Datei mit \n endet
-    int spalte = 8;
-    int i;
-    for(i = text.size()-1; i > text.size()-81 ; i--)
-       { qDebug()<<__FILE__<<":"<<__LINE__<<"auf Position "<<i<<" : "<<text.at(i);
-           switch(text.at(i).unicode())
-           // Erkennen, welche Subklasse von Figur dargestellt wird
-           {
-           case 9812: qDebug()<<__FILE__<<":"<<__LINE__<<"White king";
-              Spiel::spielStand.at(zeile).at(spalte--)._figur = new Koenig(text.at(i));
-              break;
-           case 9813: qDebug()<<__FILE__<<":"<<__LINE__<<"White queen";
-               Spiel::spielStand.at(zeile).at(spalte--)._figur = new Dame(text.at(i));
-              break;
-           case 9814: qDebug()<<__FILE__<<":"<<__LINE__<<"White rook";
-               Spiel::spielStand.at(zeile).at(spalte--)._figur = new Turm(text.at(i));
-              break;
-           case 9815: qDebug()<<__FILE__<<":"<<__LINE__<<"White bishop";
-               Spiel::spielStand.at(zeile).at(spalte--)._figur = new Lauefer(text.at(i));
-              break;
-           case 9816: qDebug()<<__FILE__<<":"<<__LINE__<<"White knight";
-               Spiel::spielStand.at(zeile).at(spalte--)._figur = new Springer(text.at(i));
-             break;
-           case 9817: qDebug()<<__FILE__<<":"<<__LINE__<<"White pawn";
-               Spiel::spielStand.at(zeile).at(spalte--)._figur = new Bauer(text.at(i));
-              break;
-           case 9818: qDebug()<<__FILE__<<":"<<__LINE__<<"Black king";
-               Spiel::spielStand.at(zeile).at(spalte--)._figur = new Koenig(text.at(i));
-              break;
-           case 9819: qDebug()<<__FILE__<<":"<<__LINE__<<"Black queen";
-               Spiel::spielStand.at(zeile).at(spalte--)._figur = new Dame(text.at(i));
-              break;
-           case 9820: qDebug()<<__FILE__<<":"<<__LINE__<<"Black rook";
-              Spiel::spielStand.at(zeile).at(spalte--)._figur = new Turm(text.at(i));
-              break;
-           case 9821: qDebug()<<__FILE__<<":"<<__LINE__<<"Black bishop";
-              Spiel::spielStand.at(zeile).at(spalte--)._figur = new Lauefer(text.at(i));
-              break;
-           case 9822: qDebug()<<__FILE__<<":"<<__LINE__<<"Black knight";
-              Spiel::spielStand.at(zeile).at(spalte--)._figur = new Springer(text.at(i));
-              break;
-           case 9823: qDebug()<<__FILE__<<":"<<__LINE__<<"Black pawn";
-               Spiel::spielStand.at(zeile).at(spalte--)._figur = new Bauer(text.at(i));
-               break;
-           case 32:
-               qDebug()<<__FILE__<<":"<<__LINE__<<"leeres Feld";
-               Spiel::spielStand.at(zeile).at(spalte--)._figur = new NoFigur(text.at(i));
-              break;
-           case 10:
-              zeile--;
-              spalte = 8;
-           default: qDebug()<<__FILE__<<":"<<__LINE__<<"Noch unbestimmt";
-               break;
-           }
 
-           qDebug()<<__FILE__<<":"<<__LINE__<<zeile<<";"<<spalte;
-
-       }
-       spielStandZeigen();
-       qDebug()<<__FILE__<<":"<<__LINE__<<"Vor dem Spielfeld steht";
-       QString zugNr = text.left(i).right(2);
-       Spiel::zugnummer=zugNr.toInt();
-       if(Spiel::zugnummer%2)
-        { ui->pushButton->setStyleSheet("background-color: white; color: black");
-          ui->pushButton->setText("Zug: "+QString::number(Spiel::zugnummer)+ " Weiss am Zug");}
-       else
-           {
-           ui->pushButton->setStyleSheet("background-color: black; color: white");
-           ui->pushButton->setText("Zug: "+QString::number(Spiel::zugnummer)+" Schwarz am Zug");
-           }
+void MainWindow::on_dateiInhalt_cursorPositionChanged()
+{  static int events;
+    //qDebug()<<__FILE__<<":"<<__LINE__<<"PositionChanged : "<<events++ <<__FILE__<<":"<<__LINE__<<"Selected : "<<ui->dateiInhalt->textCursor().selectedText();
+    //ui->ladeAnzeige->text()=ui->dateiInhalt->textCursor().selectedText();
 
 }
+
+
+void MainWindow::on_uebernehmen_clicked()
+{   qDebug()<<__FILE__<<":"<<__LINE__<<": uebernehmen()";
+        QTextCursor Cursor(ui->dateiInhalt->textCursor());
+        qDebug()<<__FILE__<<":"<<__LINE__<<": gewählter Text  :"<<Cursor.selectedText().toUtf8();
+        // Übernahme des geladenen Spielstandes ( Inhalt des Textbrowsers )
+        QString text = Cursor.selectedText(); // ui->dateiInhalt->toPlainText();
+        qDebug()<<__FILE__<<":"<<__LINE__<<": dateiInhalt als String :"<<text.toUtf8();
+        qDebug()<<__FILE__<<":"<<__LINE__<<": der String hat "<<text.size();
+        // Hole die 64 Darstellungen der Figuren
+        // 64 Zeichen am Ende des Strings, Annahme dass jedes Zeichen 1 character braucht
+        qDebug()<<__FILE__<<":"<<__LINE__<<": der String hat als letztes Zeichen "<<text.at(text.size()-1);
+        int zeile = 8; // da Datei mit \n endet
+        int spalte = 8; //9;
+        int i;
+        for(i = text.size()-1; i > 0 ; i--)
+           { qDebug()<<__FILE__<<":"<<__LINE__<<"auf Position "<<i<<" : "<<text.at(i);
+               switch(text.at(i).unicode())
+               // Erkennen, welche Subklasse von Figur dargestellt wird
+               {
+               case 9812: qDebug()<<__FILE__<<":"<<__LINE__<<"White king";
+                  Spiel::spielStand.at(zeile).at(spalte--)._figur = new Koenig(text.at(i));
+                  break;
+               case 9813: qDebug()<<__FILE__<<":"<<__LINE__<<"White queen";
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Dame(text.at(i));
+                  break;
+               case 9814: qDebug()<<__FILE__<<":"<<__LINE__<<"White rook";
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Turm(text.at(i));
+                  break;
+               case 9815: qDebug()<<__FILE__<<":"<<__LINE__<<"White bishop";
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Lauefer(text.at(i));
+                  break;
+               case 9816: qDebug()<<__FILE__<<":"<<__LINE__<<"White knight";
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Springer(text.at(i));
+                 break;
+               case 9817: qDebug()<<__FILE__<<":"<<__LINE__<<"White pawn";
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Bauer(text.at(i));
+                  break;
+               case 9818: qDebug()<<__FILE__<<":"<<__LINE__<<"Black king";
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Koenig(text.at(i));
+                  break;
+               case 9819: qDebug()<<__FILE__<<":"<<__LINE__<<"Black queen";
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Dame(text.at(i));
+                  break;
+               case 9820: qDebug()<<__FILE__<<":"<<__LINE__<<"Black rook";
+                  Spiel::spielStand.at(zeile).at(spalte--)._figur = new Turm(text.at(i));
+                  break;
+               case 9821: qDebug()<<__FILE__<<":"<<__LINE__<<"Black bishop";
+                  Spiel::spielStand.at(zeile).at(spalte--)._figur = new Lauefer(text.at(i));
+                  break;
+               case 9822: qDebug()<<__FILE__<<":"<<__LINE__<<"Black knight";
+                  Spiel::spielStand.at(zeile).at(spalte--)._figur = new Springer(text.at(i));
+                  break;
+               case 9823: qDebug()<<__FILE__<<":"<<__LINE__<<"Black pawn";
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Bauer(text.at(i));
+                   break;
+               case 32:
+                   qDebug()<<__FILE__<<":"<<__LINE__<<"leeres Feld";
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new NoFigur(text.at(i));
+                  break;
+               case 8233:
+                  qDebug()<<__FILE__<<":"<<__LINE__<<"8233";
+                  zeile--;
+                  spalte = 8;
+               default: qDebug()<<__FILE__<<":"<<__LINE__<<"Noch unbestimmt";
+                   break;
+               }
+
+               qDebug()<<__FILE__<<":"<<__LINE__<<zeile<<";"<<spalte;
+
+           }
+           spielStandZeigen();
+           qDebug()<<__FILE__<<":"<<__LINE__<<"Vor dem Spielfeld steht";
+           QString zugNr = text.left(i).right(2);
+           Spiel::zugnummer=zugNr.toInt();
+           if(Spiel::zugnummer%2)
+            { ui->pushButton->setStyleSheet("background-color: white; color: black");
+              ui->pushButton->setText("Zug: "+QString::number(Spiel::zugnummer)+ " Weiss am Zug");}
+           else
+               {
+               ui->pushButton->setStyleSheet("background-color: black; color: white");
+               ui->pushButton->setText("Zug: "+QString::number(Spiel::zugnummer)+" Schwarz am Zug");
+               }
+
+    }
+
 

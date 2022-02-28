@@ -36,7 +36,11 @@ private slots:
 
 void on_actionSpiel_laden_triggered();
 
-    void on_pushButton_uebernehmen();
+    void on_dateiInhalt_selectionChanged();
+
+    void on_dateiInhalt_cursorPositionChanged();
+
+    void on_uebernehmen_clicked();
 
 private:
     Ui::MainWindow *ui;

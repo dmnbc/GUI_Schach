@@ -25,9 +25,7 @@
     </property>
     <property name="font">
      <font>
-      <family>DejaVu Sans</family>
       <pointsize>20</pointsize>
-      <weight>75</weight>
       <bold>true</bold>
      </font>
     </property>
@@ -167,13 +165,18 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>261</y>
+      <y>141</y>
       <width>191</width>
-      <height>201</height>
+      <height>321</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="uebernehmen">
     <property name="geometry">
      <rect>
       <x>110</x>

@@ -40,7 +40,7 @@ public:
     QPushButton *pushButton;
     QLabel *ladeAnzeige;
     QTextBrowser *dateiInhalt;
-    QPushButton *pushButton_2;
+    QPushButton *uebernehmen;
     QLabel *spieler1;
     QLineEdit *lineEdit;
     QLineEdit *lineEdit_2;
@@ -94,7 +94,6 @@ public:
         brettAnzeige->setObjectName(QString::fromUtf8("brettAnzeige"));
         brettAnzeige->setGeometry(QRect(210, 100, 400, 400));
         QFont font;
-        font.setFamilies({QString::fromUtf8("DejaVu Sans")});
         font.setPointSize(20);
         font.setBold(true);
         brettAnzeige->setFont(font);
@@ -121,10 +120,13 @@ public:
         ladeAnzeige->setGeometry(QRect(210, 510, 401, 16));
         dateiInhalt = new QTextBrowser(centralwidget);
         dateiInhalt->setObjectName(QString::fromUtf8("dateiInhalt"));
-        dateiInhalt->setGeometry(QRect(10, 261, 191, 201));
-        pushButton_2 = new QPushButton(centralwidget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
-        pushButton_2->setGeometry(QRect(110, 470, 93, 28));
+        dateiInhalt->setGeometry(QRect(10, 141, 191, 321));
+        QFont font1;
+        font1.setPointSize(10);
+        dateiInhalt->setFont(font1);
+        uebernehmen = new QPushButton(centralwidget);
+        uebernehmen->setObjectName(QString::fromUtf8("uebernehmen"));
+        uebernehmen->setGeometry(QRect(110, 470, 93, 28));
         spieler1 = new QLabel(centralwidget);
         spieler1->setObjectName(QString::fromUtf8("spieler1"));
         spieler1->setGeometry(QRect(20, 20, 81, 31));
@@ -203,7 +205,7 @@ public:
 
         pushButton->setText(QCoreApplication::translate("MainWindow", "Zug xx f\303\274r farbe", nullptr));
         ladeAnzeige->setText(QString());
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "\303\274bernehmen", nullptr));
+        uebernehmen->setText(QCoreApplication::translate("MainWindow", "\303\274bernehmen", nullptr));
         spieler1->setText(QCoreApplication::translate("MainWindow", "Spieler-Wei\303\237", nullptr));
         spieler2->setText(QCoreApplication::translate("MainWindow", "Spieler-Schwarz", nullptr));
         menuSpiel->setTitle(QCoreApplication::translate("MainWindow", "Spiel", nullptr));

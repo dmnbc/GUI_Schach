@@ -18,8 +18,7 @@ bool XML_Austausch::zug_ergaenzen(QString filename, std::array<std::array<Feld,1
 { // https://thecodeprogram.com/how-to-read-and-write-xml-files-in-qt-c--
     qDebug()<<__FILE__<<":"<<__LINE__<<"zug_ergaenzen()";
 
-    QDomDocument gameXML(filename);
-        QFile xmlFile(filename);
+      QFile xmlFile(filename);
 
         if (!xmlFile.open(QIODevice::ReadOnly | QIODevice::Text ))
         {
@@ -27,23 +26,20 @@ bool XML_Austausch::zug_ergaenzen(QString filename, std::array<std::array<Feld,1
             qDebug()<<__FILE__<<":"<<__LINE__<<filename<< " wurde nicht geöffnet";
             return false;
         }
-        //qDebug()<<__FILE__<<":"<<__LINE__<<xmlFile;
-       /* QString line;
-        while (!xmlFile.atEnd())
-        {
-            line = xmlFile.readLine();
-            qDebug()<<__FILE__<<":"<<__LINE__<<line.toUtf8();
-        }*/ // es wird in UTF8 gelesen
 
-        gameXML.setContent(&xmlFile);
-        xmlFile.close();
-    qDebug()<<__FILE__<<":"<<__LINE__<<filename<< " ist geöffnet";
-    qDebug()<<__FILE__<<":"<<__LINE__<<gameXML.toByteArray(); // immer noch UTF8 erkennbar
-    QDomElement root = gameXML.documentElement();
-    qDebug()<<__FILE__<<":"<<__LINE__<<"root : "<<root.isElement();
-    QDomElement zugTag = gameXML.createElement(QString("Zug"));
-    zugTag.setAttribute("zugnummer",QString::number(Spiel::zugnummer));
-    QDomElement stellungTag = gameXML.createElement(QString("Stellung"));
+      QDomDocument gameXML;
+      if( !gameXML.setContent(&xmlFile)) //Dokument im Speicher mit Inhalt der Datei füllen
+      {
+          // Error while loading file
+          qDebug()<<__FILE__<<":"<<__LINE__<<"QDomDocument  wurde nicht erstellt";
+          return false;
+      }
+      xmlFile.close(); // Wird erst später beim Rückschreiben wieder geöffnet
+
+    QDomElement root = gameXML.documentElement();                        // <Spiel></Spiel>
+    QDomElement zugTag = gameXML.createElement(QString("Zug"));          // <Zug></Zug>
+    zugTag.setAttribute("zugnummer",QString::number(Spiel::zugnummer));  // <Zug "zugnummer = x"></Zug>
+    QDomElement stellungTag = gameXML.createElement(QString("stellung"));// <Stellung></Stellung>
     QString stellungString;
     for(int i = 1; i <= 8; i++)
        for(int j = 1; j <= 8; j++)
@@ -52,14 +48,14 @@ bool XML_Austausch::zug_ergaenzen(QString filename, std::array<std::array<Feld,1
            qDebug()<<__FILE__<<":"<<__LINE__<<stellungString;
        }
 
-    QDomText stellungText = gameXML.createTextNode(stellungString);
+    QDomText stellungText = gameXML.createTextNode(stellungString);      //♖♘♗♔♕♗♘♖♙♙♙♙♙♙♙♙                                ♟♟♟♟♟♟♟♟♜♞♝♚♛♝♞♜
     stellungTag.appendChild(stellungText);
 
-    zugTag.appendChild(stellungTag);
+    zugTag.appendChild(stellungTag);                                //<Zug "zugnummer = x">♖♘♗♔♕♗♘♖♙♙♙♙♙♙♙♙</Zug>
 
 
     root.appendChild(zugTag);
-    if(!xmlFile.open(QIODevice::WriteOnly  | QIODevice::Text))
+    if(!xmlFile.open(QIODevice::WriteOnly  | QIODevice::Text))     // <Spiel><Zug "zugnummer = x">♖♘♗♔♕♗♘♖♙♙♙♙♙♙♙♙</Zug></Spiel>
     {
          qDebug()<<__FILE__<<":"<<__LINE__<<filename<< " wurde nicht geöffnet";
          return false;
