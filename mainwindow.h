@@ -42,6 +42,8 @@ void on_actionSpiel_laden_triggered();
 
     void on_uebernehmen_clicked();
 
+    void on_usageDatabase_toggled(bool checked);
+
 private:
     Ui::MainWindow *ui;
 };

@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtGui/QAction>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QCheckBox>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -19,6 +20,7 @@
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QRadioButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QTextBrowser>
@@ -45,6 +47,8 @@ public:
     QLineEdit *lineEdit;
     QLineEdit *lineEdit_2;
     QLabel *spieler2;
+    QRadioButton *usageDatabase;
+    QCheckBox *dataBaseConected;
     QMenuBar *menubar;
     QMenu *menuSpiel;
     QMenu *menuSpiel_speichern;
@@ -143,6 +147,12 @@ public:
         spieler2->setGeometry(QRect(640, 20, 101, 31));
         spieler2->setStyleSheet(QString::fromUtf8("background-color: black;\n"
 "color: rgb(255, 255, 255);"));
+        usageDatabase = new QRadioButton(centralwidget);
+        usageDatabase->setObjectName(QString::fromUtf8("usageDatabase"));
+        usageDatabase->setGeometry(QRect(40, 70, 110, 24));
+        dataBaseConected = new QCheckBox(centralwidget);
+        dataBaseConected->setObjectName(QString::fromUtf8("dataBaseConected"));
+        dataBaseConected->setGeometry(QRect(60, 100, 111, 24));
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
@@ -208,6 +218,8 @@ public:
         uebernehmen->setText(QCoreApplication::translate("MainWindow", "\303\274bernehmen", nullptr));
         spieler1->setText(QCoreApplication::translate("MainWindow", "Spieler-Wei\303\237", nullptr));
         spieler2->setText(QCoreApplication::translate("MainWindow", "Spieler-Schwarz", nullptr));
+        usageDatabase->setText(QCoreApplication::translate("MainWindow", "per database", nullptr));
+        dataBaseConected->setText(QCoreApplication::translate("MainWindow", "not connected", nullptr));
         menuSpiel->setTitle(QCoreApplication::translate("MainWindow", "Spiel", nullptr));
         menuSpiel_speichern->setTitle(QCoreApplication::translate("MainWindow", "Spiel speichern", nullptr));
         menuHilfe->setTitle(QCoreApplication::translate("MainWindow", "Hilfe", nullptr));

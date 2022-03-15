@@ -40,6 +40,7 @@
 #include "ui_mainwindow.h"
 #include "spiel.h"
 #include "xml_austausch.h"
+#include "database.h"
 
 #include <Qt>
 #include <QDebug>
@@ -51,6 +52,8 @@
 #include <QTextStream>
 #include <QScrollBar>
 
+QSqlDatabase Database::db;
+bool Database::connected = false;
 std::array<std::array<Feld,10>,10> Spiel::spielStand;
 QString Spiel::aufgenommeneFigur;
 Figur* Spiel::aufgenommene_Figur;
@@ -76,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->pushButton->setText("Neues Spiel - Weiss am Zug");
 
     ui->dateiInhalt->verticalScrollBar()->setPageStep(9);
-    ui->dateiInhalt->verticalScrollBar()->
+    //ui->dateiInhalt->verticalScrollBar()->
 
    qDebug()<<__FILE__<<":"<<__LINE__<<" Instanzieren von Spiel spiel";
    Spiel spiel; // schafft die Grundstellung auf dem Brett
@@ -191,7 +194,9 @@ void MainWindow::on_brettAnzeige_cellEntered(int row, int column)
 
 
 void MainWindow::spielStandZeigen()
-{QColor hell;
+{
+    qDebug()<<__FILE__<<";"<<__LINE__<<"spielStandZeigen()";
+    QColor hell;
     hell.setRgb(255,255,220);
     QColor dunkel;
     dunkel.setRgb(128,220,128);
@@ -204,6 +209,7 @@ void MainWindow::spielStandZeigen()
         QTableWidgetItem* feld = new QTableWidgetItem;
         feld->setTextAlignment(Qt::AlignCenter);
         feld->setText(Spiel::spielStand.at(row).at(column)._figur->utf8Figur);
+        qDebug()<<__FILE__<<";"<<__LINE__<<row<<":"<<column<<" -> "<<Spiel::spielStand.at(row).at(column)._figur->utf8Figur;
         feld->setBackground((row*column!=0 && row != 9 && column !=9 )?(row+column)%2?hell:dunkel:neutral);
         ui->brettAnzeige->setItem(row,column,feld);
         // Umschalten der Spieleranzeige
@@ -481,7 +487,7 @@ void MainWindow::on_uebernehmen_clicked()
                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Springer(text.at(i));
                   break;
                case 9823: qDebug()<<__FILE__<<":"<<__LINE__<<"Black pawn";
-                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Bauer(text.at(i));
+                   Spiel::spielStand.at(zeile).at(spalte--)._figur = new Bauer(text.at(i));                  
                    break;
                case 32:
                    qDebug()<<__FILE__<<":"<<__LINE__<<"leeres Feld";
@@ -494,7 +500,8 @@ void MainWindow::on_uebernehmen_clicked()
                default: qDebug()<<__FILE__<<":"<<__LINE__<<"Noch unbestimmt";
                    break;
                }
-
+               if(spalte == -1) //
+                  spalte = 8;   //
                qDebug()<<__FILE__<<":"<<__LINE__<<zeile<<";"<<spalte;
 
            }
@@ -513,4 +520,36 @@ void MainWindow::on_uebernehmen_clicked()
 
     }
 
+
+void MainWindow::on_usageDatabase_toggled(bool checked)
+{
+     qDebug()<<__FILE__<<":"<<__LINE__<<"Datenbank soll "<<(checked?"":"nicht ")<<"genutzt werden";
+     // Versuch die Datenbank anzusprechen
+         qDebug()<<__FILE__<<":"<<__LINE__<<"Try to connect";
+
+         // Datenbank objekt erstellen und verbinden
+         Database db("QMYSQL");qDebug()<<__FILE__<<":"<<__LINE__<<"db Instanz ";
+
+
+         if(!Database::connected)
+         // nicht verbunde -> Fehlermeldung
+         {   qDebug()<<__FILE__<<":"<<__LINE__<<"Database::connected is "<<Database::connected;
+
+             ui->dataBaseConected->setStyleSheet("color:red");
+             ui->dataBaseConected->setText("not connected");
+             ui->dataBaseConected->setChecked(false);
+         }
+         else
+         // Verbindungsanzeige aktuallisieren
+         {   qDebug()<<__FILE__<<":"<<__LINE__<<"Database::connected is "<<Database::connected;
+             ui->dataBaseConected->setStyleSheet("color:green");
+             ui->dataBaseConected->setText("connected");
+             ui->dataBaseConected->setChecked(true);
+
+             Database::results("use chess");
+             QString spielstand = Database::results("select * from zug order by zug_id DESC limit 1").at(1).at(3);
+             ui->dateiInhalt->setText(spielstand);
+             qDebug()<<__FILE__<<":"<<__LINE__<<spielstand<<" hat "<<spielstand.size()<<" Zeichen";
+         }
+}
 

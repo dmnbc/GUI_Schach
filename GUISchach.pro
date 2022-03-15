@@ -1,4 +1,4 @@
-QT       += core gui xml
+QT       += core gui xml sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -11,6 +11,7 @@ CONFIG += c++11
 SOURCES += \
     bauer.cpp \
     dame.cpp \
+    database.cpp \
     feld.cpp \
     figur.cpp \
     koenig.cpp \
@@ -26,6 +27,7 @@ SOURCES += \
 HEADERS += \
     bauer.h \
     dame.h \
+    database.h \
     feld.h \
     figur.h \
     koenig.h \

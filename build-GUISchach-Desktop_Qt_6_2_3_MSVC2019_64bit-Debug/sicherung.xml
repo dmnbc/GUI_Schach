@@ -1,34 +1,10 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Schachpartie>
- <daten>
-  <Spieler weiss="" schwarz=""/>
-  <Datum um="10:37:00" am="Fri Feb 25 2022"/>
- </daten>
- <Zug zugnummer="1">
-  <stellung>♖♘♗♔♕♗♘♖♙♙♙♙♙♙♙♙                                ♟♟♟♟♟♟♟♟♜♞♝♚♛♝♞♜</stellung>
- </Zug>
- <Zug zugnummer="2">
-  <stellung>♖ ♗♔♕♗♘♖♙♙♙♙♙♙♙♙  ♘                             ♟♟♟♟♟♟♟♟♜♞♝♚♛♝♞♜</stellung>
- </Zug>
- <Zug zugnummer="3">
-  <stellung>♖ ♗♔♕♗♘♖♙♙♙♙♙♙♙♙  ♘                     ♞       ♟♟♟♟♟♟♟♟♜ ♝♚♛♝♞♜</stellung>
- </Zug>
- <Zug zugnummer="4">
-  <stellung>♖ ♗♔♕♗♘♖♙ ♙♙♙♙♙♙ ♙♘                     ♞       ♟♟♟♟♟♟♟♟♜ ♝♚♛♝♞♜</stellung>
- </Zug>
- <Zug zugnummer="5">
-  <stellung>♖  ♔♕♗♘♖♙ ♙♙♙♙♙♙♗♙♘                     ♞       ♟♟♟♟♟♟♟♟♜ ♝♚♛♝♞♜</stellung>
- </Zug>
- <Zug zugnummer="6">
-  <stellung>♖  ♔♕♗♘♖♙ ♙♙♙♙♙♙♗♙♘                ♟    ♞       ♟♟♟ ♟♟♟♟♜ ♝♚♛♝♞♜</stellung>
- </Zug>
- <Zug zugnummer="7">
-  <stellung>  ♖♔♕♗♘♖♙ ♙♙♙♙♙♙♗♙♘                ♟    ♞       ♟♟♟ ♟♟♟♟♜ ♝♚♛♝♞♜</stellung>
- </Zug>
- <Zug zugnummer="8">
-  <stellung>  ♖♔♕♗♘♖♙ ♙♙♙♙♙♙♗♙♘           ♝    ♟    ♞       ♟♟♟ ♟♟♟♟♜  ♚♛♝♞♜</stellung>
- </Zug>
- <Zug zugnummer="9">
-  <stellung>  ♖♔♕♗♘♖♙ ♙ ♙♙♙♙♗♙♘        ♙  ♝    ♟    ♞       ♟♟♟ ♟♟♟♟♜  ♚♛♝♞♜</stellung>
- </Zug>
+    <daten>
+        <Spieler weiss="" schwarz=""/>
+        <Datum am ="Mon Mar 14 2022" um ="12:46:44"/>
+    </daten>
+    <Zug zugnummer="17">
+        <stellung>♖ ♗ ♕ ♘♖♙ ♙ ♙♙♗♙♘  ♔  ♙  ♙ ♙     ♟ ♟ ♟ ♟♞ ♟ ♟   ♟ ♚ ♝ ♟ ♜ ♝ ♛ ♞♜</stellung>
+    </Zug>
 </Schachpartie>
